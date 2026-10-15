@@ -4,9 +4,22 @@
 `allowH2` 默认值），DSH 侧一旦修好就没有存在价值，所以不往 npm 发、不进插件市场 ——
 免得留下一个需要长期维护的发行物。
 
-- 仓库：`https://github.com/mqnu00/dsh-undici-timeout`（**你要建**，需要你的账号）
+- 仓库：`https://github.com/mqnu00/dsh-undici-timeout` —— **已发布**（2026-10-15，tag `v0.1.1`）
 - 安装命令（给别人看的）：`dsh plugin --profile web add github:mqnu00/dsh-undici-timeout`
 - 想换 owner：`grep -rl "mqnu00/dsh-undici-timeout" . | xargs sed -i 's#mqnu00/dsh-undici-timeout#<owner>/<repo>#g'`
+- ⚠️ **换 owner 时别忘了 git 身份。** 上面那条 sed 只扫工作区里被 git 跟踪的文件，扫不到
+  `.git/config` —— 我就是这么踩的：仓库发在 `mqnu00` 名下，commit 的作者却是 `Sanqi-normal`
+  （`<login>@users.noreply.github.com` 这种邮箱会被 GitHub 按登录名关联到同名账号，提交记录
+  直接挂到别人头上），最后只能 force-push 重写历史。规范做法是用 GitHub 的
+  `<id>+<login>@users.noreply.github.com`（`id` 从 `GET /user` 拿）：
+
+  ```bash
+  git config --local user.name  "<login>"
+  git config --local user.email "<id>+<login>@users.noreply.github.com"
+  git commit --amend --reset-author --no-edit          # 已有提交一起改
+  git tag -d vX.Y.Z && git tag -a vX.Y.Z -m "vX.Y.Z"   # 注释 tag 的 tagger 也要重建
+  git push --force origin main && git push --force origin refs/tags/vX.Y.Z
+  ```
 
 ---
 
