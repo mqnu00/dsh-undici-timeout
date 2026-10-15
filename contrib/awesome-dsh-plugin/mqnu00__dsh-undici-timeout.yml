@@ -1,0 +1,7 @@
+url: https://github.com/mqnu00/dsh-undici-timeout
+name: mqnu00/dsh-undici-timeout
+# tools = 与 dsh-net-proxy 同一栏（网络传输类）；若维护者觉得 dev（开发与运行时）更贴切，改这一行即可。
+category: tools
+description:
+  en: 'Replaces the built-in fetch path for whitelisted hosts with a keep-alive undici Agent whose connect, headers, body and keep-alive timeouts are all configurable; adds IPv4-forcing, leaves HTTP/2 off by default, stands down automatically when a proxy env is set, and exposes a read-only status route.'
+  zh: '把白名单域名的 LLM 出口从内置 fetch 换到一条可配置的 undici 直连通道：连接、响应头、body 与保活超时都可调，可强制 IPv4，默认关闭 HTTP/2，检测到代理环境变量时自动让路，并提供一条只读状态路由。'

@@ -1,0 +1,57 @@
+{
+  "name": "dsh-undici-timeout",
+  "version": "0.1.1",
+  "description": "A configurable direct channel for the DSH LLM egress: a keep-alive undici Agent with adjustable connect/headers/body/keep-alive timeouts, IPv4-forcing, HTTP/2 off by default, automatic stand-down behind a proxy, and a read-only status route.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "undici",
+    "fetch",
+    "timeout",
+    "connect-timeout",
+    "keep-alive",
+    "http2",
+    "proxy",
+    "network"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "test",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mqnu00/dsh-undici-timeout.git"
+  },
+  "homepage": "https://github.com/mqnu00/dsh-undici-timeout",
+  "bugs": {
+    "url": "https://github.com/mqnu00/dsh-undici-timeout/issues"
+  },
+  "author": "mqnu00",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "smoke": "node test/live-smoke.mjs",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm test"
+  },
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": ">=0.2.0"
+  },
+  "license": "MIT"
+}

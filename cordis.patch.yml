@@ -1,0 +1,33 @@
+# dsh-undici-timeout — 插件包自带 patch（正式包装安装用：
+#   dsh plugin --profile web add dsh-undici-timeout
+#   dsh plugin --profile web add github:mqnu00/dsh-undici-timeout
+#   dsh plugin --profile web add <tarball.tgz>
+# ）
+#
+# ⚠️ 与 profile 用户层里手写 file:// insert 的 id 冲突（都是 undici-timeout），
+#    两条安装路别同时用（和 dsh-net-autoswitch 的约定一样）：先卸掉 file:// 那条。
+#
+# 这里只写「一定会变」的几项；其余全走 lib/index.js 里的 DEFAULTS。
+# 两个建议值见下面注释，需要时自己解开。
+- insert:
+    - id: undici-timeout
+      name: dsh-undici-timeout
+      config:
+        enabled: true
+        # 命中这些域名（含子域）才接管；"*" = 全部直连流量
+        hosts:
+          - opencode.ai
+        # 核心项：DNS+TCP+TLS 的总预算（Node 内置 fetch 固定 10s，改不了）
+        connectTimeoutMs: 30000
+        # 0 = 关：SSE 卡流交给 pi-ai 自己的 streamIdleTimeoutMs 看门狗，别打架
+        bodyTimeoutMs: 0
+        # 保活 = 复用 = 不重握手
+        keepAliveTimeoutMs: 60000
+        # ── 可选：本机 IPv6 无出口时（WSL / 无 v6 路由的机器）强制走 v4。
+        #    实测：DNS 一次回 10 个 v4 + 10 个 v6，地址族探测会把预算烧在死地址上，
+        #    内置 fetch 2/6 成功，强制 v4 后 6/6。不确定就别解。
+        # family: 4
+        # ── 可选：undici 8 的 allowH2 默认已由本插件显式关成 false（h2 上 SSE 长流
+        #    会被 Cloudflare 用 NGHTTP2_ENHANCE_YOUR_CALM 掐断）。只有在你明确知道
+        #    自己要 h2 时才打开。
+        # allowH2: true
